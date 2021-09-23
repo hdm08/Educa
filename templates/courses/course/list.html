@@ -1,0 +1,44 @@
+{% extends 'base1.html' %}
+{%load static%}
+{%	block	title	%}
+{%	if	subject	%}
+{{ subject.title	}}	courses
+{%	else	%}
+All	courses
+{%	endif	%}
+{%	endblock	%}
+
+{% block content %}
+<div class="container-fluid mt-3">
+	<div class="row">
+		<div class="col-lg-3 mx-auto">
+			<div class="list-group">
+				<a href="{%	url	'course_list'	%}" class="list-group-item list-group-item-action">All Courses</a>
+				{%	for	s	in	subjects	%}
+				<a href="{%	url	'course_list_subject'	s.slug	%}"
+				   class="list-group-item list-group-item-action">{{	s.title	}}<span>{{	s.total_courses	}}	courses</a>
+				{% endfor %}
+			</div>
+		</div>
+
+		<div id='products' class="col-lg-7 mx-auto">
+			<div class="row mx-auto">
+				{%	for	course	in courses	%}
+				{%	with	subject=course.subject	%}
+
+				<div class="card mx-auto mb-3" id={{product.id}} style="width: 18rem;">
+					<img class="card-img-top" src="{%static 'hdm.png'%}" alt="Card image cap" height="150" width="250">
+					<div class="card-body">
+						<h3><a	href="{%	url	'course_detail' course.slug	%}">{{ course.title	}}</a></h3>
+						<p class="card-text"><b>Subject: {{ subject	}}</b></p>
+						<p class="card-text"><b>Total Module: {{ course.total_modules	}}</b></p>
+						<p class="card-text"><b>Instructor: {{ course.owner.first_name	}}</b></p>
+					</div>
+				</div>
+				{%	endwith	%}
+				{% endfor %}
+			</div>
+		</div>
+	</div>
+</div>
+{% endblock %}
